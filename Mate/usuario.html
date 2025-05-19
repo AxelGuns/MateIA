@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mi Progreso - MateIa</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="ejercicios.css">
+    <link rel="stylesheet" href="retos.css">
+    <link rel="stylesheet" href="progreso.css">
+    <link rel="stylesheet" href="usuario.css">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <nav>
+                <div class="logo">
+                    <div class="logo-icon">📊</div>
+                    <div>MateIa</div>
+                </div>
+                <ul class="nav-links">
+                    <li><a href="index.html">Inicio</a></li>
+                    <li><a href="index.html#topics-section">Temas</a></li>
+                    <li><a href="ejercicios.html">Ejercicios</a></li>
+                    <li><a href="retos.html">Retos</a></li>
+                    <li><a href="progreso.html" class="active">Mi Progreso</a></li>
+                </ul>
+                <button class="mobile-menu-btn">☰</button>
+            </nav>
+        </div>
+    </header>
+
+    <div class="mobile-menu">
+        <button class="close-menu">✕</button>
+        <ul class="mobile-nav-links">
+            <li><a href="index.html">Inicio</a></li>
+            <li><a href="#">Temas</a></li>
+            <li><a href="ejercicios.html">Ejercicios</a></li>
+            <li><a href="retos.html">Retos</a></li>
+            <li><a href="progreso.html" class="active">Mi Progreso</a></li>
+            <li><a href="#">Mi Perfil</a></li>
+        </ul>
+    </div>
+
+    <section class="progreso-hero">
+        <div class="container">
+            <h1>Mi Progreso</h1>
+            <p>Visualiza tu avance, logros y rendimiento en tu aprendizaje matemático</p>
+        </div>
+    </section>
+
+    <section class="progreso-resumen">
+        <div class="container">
+            <h2 class="section-title">Resumen de aprendizaje</h2>
+            <div class="resumen-dashboard">
+                <div class="dashboard-stats">
+                    <div class="stat-box">
+                        <div class="stat-icon">✏️</div>
+                        <div class="stat-info">
+                            <div class="stat-value" id="ejercicios-completados">0</div>
+                            <div class="stat-label">Ejercicios completados</div>
+                        </div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-icon">🏆</div>
+                        <div class="stat-info">
+                            <div class="stat-value" id="retos-completados">0</div>
+                            <div class="stat-label">Retos superados</div>
+                        </div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-icon">⏱️</div>
+                        <div class="stat-info">
+                            <div class="stat-value" id="tiempo-estudio">0h</div>
+                            <div class="stat-label">Tiempo de estudio</div>
+                        </div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-icon">🔥</div>
+                        <div class="stat-info">
+                            <div class="stat-value" id="racha-actual">0</div>
+                            <div class="stat-label">Racha actual</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="nivel-actual">
+                    <div class="nivel-header">
+                        <h3>Nivel actual</h3>
+                        <div class="nivel-badge" id="nivel-badge">3</div>
+                    </div>
+                    <div class="nivel-progress-container">
+                        <div class="nivel-info">
+                            <span id="nivel-actual">Nivel 3: Explorador Matemático</span>
+                            <span id="puntos-nivel">245/300 puntos</span>
+                        </div>
+                        <div class="nivel-progress-bar">
+                            <div class="nivel-progress-fill" style="width: 82%"></div>
+                        </div>
+                        <div class="siguiente-nivel">
+                            <span>Siguiente: Nivel 4 - Estratega Numérico</span>
+                            <span>Faltan: 55 puntos</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="progreso-graficos">
+        <div class="container">
+            <div class="graficos-container">
+                <div class="grafico-card">
+                    <h3>Dominio por áreas</h3>
+                    <div class="grafico-wrapper">
+                        <canvas id="grafico-areas"></canvas>
+                    </div>
+                </div>
+                <div class="grafico-card">
+                    <h3>Rendimiento semanal</h3>
+                    <div class="grafico-wrapper">
+                        <canvas id="grafico-rendimiento"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="progreso-temas">
+        <div class="container">
+            <h2 class="section-title">Progreso por temas</h2>
+            <div class="temas-filtro">
+                <button class="tema-filtro active" data-categoria="todos">Todos</button>
+                <button class="tema-filtro" data-categoria="algebra">Álgebra</button>
+                <button class="tema-filtro" data-categoria="geometria">Geometría</button>
+                <button class="tema-filtro" data-categoria="estadistica">Estadística</button>
+                <button class="tema-filtro" data-categoria="trigonometria">Trigonometría</button>
+            </div>
+            
+            <div class="temas-grid">
+                <div class="tema-card">
+                    <div class="tema-header">
+                        <h3>Ecuaciones lineales</h3>
+                        <span class="tema-categoria">Álgebra</span>
+                    </div>
+                    <div class="tema-progreso">
+                        <div class="progreso-porcentaje">85%</div>
+                        <div class="progreso-bar-container">
+                            <div class="progreso-bar-fill" style="width: 85%"></div>
+                        </div>
+                    </div>
+                    <div class="tema-stats">
+                        <div class="tema-stat">
+                            <span class="stat-nombre">Ejercicios</span>
+                            <span class="stat-valor">17/20</span>
+                        </div>
+                        <div class="tema-stat">
+                            <span class="stat-nombre">Retos</span>
+                            <span class="stat-valor">4/5</span>
+                        </div>
+                        <div class="tema-stat">
+                            <span class="stat-nombre">Promedio</span>
+                            <span class="stat-valor">8.7/10</span>
+                        </div>
+                    </div>
+                    <a href="#" class="btn btn-outline">Continuar</a>
+                </div>
+
+                <div class="tema-card">
+                    <div class="tema-header">
+                        <h3>Factorización</h3>
+                        <span class="tema-categoria">Álgebra</span>
+                    </div>
+                    <div class="tema-progreso">
+                        <div class="progreso-porcentaje">60%</div>
+                        <div class="progreso-bar-container">
+                            <div class="progreso-bar-fill" style="width: 60%"></div>
+                        </div>
+                    </div>
+                    <div class="tema-stats">
+                        <div class="tema-stat">
+                            <span class="stat-nombre">Ejercicios</span>
+                            <span class="stat-valor">12/20</span>
+                        </div>
+                        <div class="tema-stat">
+                            <span class="stat-nombre">Retos</span>
+                            <span class="stat-valor">2/4</span>
+                        </div>
+                        <div class="tema-stat">
+                            <span class="stat-nombre">Promedio</span>
+                            <span class="stat-valor">7.5/10</span>
+                        </div>
+                    </div>
+                    <a href="#" class="btn btn-outline">Continuar</a>
+                </div>
+
+                <div class="tema-card">
+                    <div class="tema-header">
+                        <h3>Perímetros y áreas</h3>
+                        <span class="tema-categoria">Geometría</span>
+                    </div>
+                    <div class="tema-progreso">
+                        <div class="progreso-porcentaje">75%</div>
+                        <div class="progreso-bar-container">
+                            <div class="progreso-bar-fill" style="width: 75%"></div>
+                        </div>
+                    </div>
+                    <div class="tema-stats">
+                        <div class="tema-stat">
+                            <span class="stat-nombre">Ejercicios</span>
+                            <span class="stat-valor">15/20</span>
+                        </div>
+                        <div class="tema-stat">
+                            <span class="stat-nombre">Retos</span>
+                            <span class="stat-valor">3/4</span>
+                        </div>
+                        <div class="tema-stat">
+                            <span class="stat-nombre">Promedio</span>
+                            <span class="stat-valor">8.2/10</span>
+                        </div>
+                    </div>
+                    <a href="#" class="btn btn-outline">Continuar</a>
+                </div>
+
+                <div class="tema-card">
+                    <div class="tema-header">
+                        <h3>Medidas de tendencia central</h3>
+                        <span class="tema-categoria">Estadística</span>
+                    </div>
+                    <div class="tema-progreso">
+                        <div class="progreso-porcentaje">40%</div>
+                        <div class="progreso-bar-container">
+                            <div class="progreso-bar-fill" style="width: 40%"></div>
+                        </div>
+                    </div>
+                    <div class="tema-stats">
+                        <div class="tema-stat">
+                            <span class="stat-nombre">Ejercicios</span>
+                            <span class="stat-valor">8/20</span>
+                        </div>
+                        <div class="tema-stat">
+                            <span class="stat-nombre">Retos</span>
+                            <span class="stat-valor">1/3</span>
+                        </div>
+                        <div class="tema-stat">
+                            <span class="stat-nombre">Promedio</span>
+                            <span class="stat-valor">7.8/10</span>
+                        </div>
+                    </div>
+                    <a href="#" class="btn btn-outline">Continuar</a>
+                </div>
+
+                <div class="tema-card">
+                    <div class="tema-header">
+                        <h3>Razones trigonométricas</h3>
+                        <span class="tema-categoria">Trigonometría</span>
+                    </div>
+                    <div class="tema-progreso">
+                        <div class="progreso-porcentaje">10%</div>
+                        <div class="progreso-bar-container">
+                            <div class="progreso-bar-fill" style="width: 10%"></div>
+                        </div>
+                    </div>
+                    <div class="tema-stats">
+                        <div class="tema-stat">
+                            <span class="stat-nombre">Ejercicios</span>
+                            <span class="stat-valor">2/20</span>
+                        </div>
+                        <div class="tema-stat">
+                            <span class="stat-nombre">Retos</span>
+                            <span class="stat-valor">0/4</span>
+                        </div>
+                        <div class="tema-stat">
+                            <span class="stat-nombre">Promedio</span>
+                            <span class="stat-valor">6.5/10</span>
+                        </div>
+                    </div>
+                    <a href="#" class="btn btn-outline">Continuar</a>
+                </div>
+
+                <div class="tema-card">
+                    <div class="tema-header">
+                        <h3>Ecuaciones cuadráticas</h3>
+                        <span class="tema-categoria">Álgebra</span>
+                    </div>
+                    <div class="tema-progreso">
+                        <div class="progreso-porcentaje">25%</div>
+                        <div class="progreso-bar-container">
+                            <div class="progreso-bar-fill" style="width: 25%"></div>
+                        </div>
+                    </div>
+                    <div class="tema-stats">
+                        <div class="tema-stat">
+                            <span class="stat-nombre">Ejercicios</span>
+                            <span class="stat-valor">5/20</span>
+                        </div>
+                        <div class="tema-stat">
+                            <span class="stat-nombre">Retos</span>
+                            <span class="stat-valor">1/5</span>
+                        </div>
+                        <div class="tema-stat">
+                            <span class="stat-nombre">Promedio</span>
+                            <span class="stat-valor">7.2/10</span>
+                        </div>
+                    </div>
+                    <a href="#" class="btn btn-outline">Continuar</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="logros-section">
+        <div class="container">
+            <h2 class="section-title">Mis Logros</h2>
+            <div class="logros-tabs">
+                <button class="logro-tab active" data-tipo="insignias">Insignias</button>
+                <button class="logro-tab" data-tipo="certificados">Certificados</button>
+            </div>
+            
+            <div class="logros-container active" id="insignias-container">
+                <div class="insignias-grid">
+                    <div class="insignia">
+                        <div class="insignia-img">
+                            <span class="insignia-icon">🧮</span>
+                        </div>
+                        <h3>Maestro Algebraico</h3>
+                        <p>Completaste 10 retos de álgebra</p>
+                        <div class="insignia-fecha">Obtenido: 15 May 2025</div>
+                    </div>
+                    
+                    <div class="insignia">
+                        <div class="insignia-img">
+                            <span class="insignia-icon">⚡</span>
+                        </div>
+                        <h3>Velocidad Mental</h3>
+                        <p>Resolviste 5 retos en menos de 2 minutos</p>
+                        <div class="insignia-fecha">Obtenido: 10 May 2025</div>
+                    </div>
+                    
+                    <div class="insignia">
+                        <div class="insignia-img">
+                            <span class="insignia-icon">🎯</span>
+                        </div>
+                        <h3>Precisión Perfecta</h3>
+                        <p>Completaste 3 retos sin errores</p>
+                        <div class="insignia-fecha">Obtenido: 5 May 2025</div>
+                    </div>
+                    
+                    <div class="insignia">
+                        <div class="insignia-img locked">
+                            <span class="insignia-icon">🔥</span>
+                        </div>
+                        <h3>Racha Imparable</h3>
+                        <p>Mantén una racha de 5 días consecutivos</p>
+                        <div class="insignia-progreso">Progreso: 3/5 días</div>
+                    </div>
+                    
+                    <div class="insignia">
+                        <div class="insignia-img locked">
+                            <span class="insignia-icon">📊</span>
+                        </div>
+                        <h3>Analista de Datos</h3>
+                        <p>Domina todos los ejercicios de estadística</p>
+                        <div class="insignia-progreso">Progreso: 40%</div>
+                    </div>
+                    
+                    <div class="insignia">
+                        <div class="insignia-img locked">
+                            <span class="insignia-icon">📐</span>
+                        </div>
+                        <h3>Geómetra Experto</h3>
+                        <p>Completa todos los retos de geometría</p>
+                        <div class="insignia-progreso">Progreso: 75%</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="logros-container" id="certificados-container">
+                <div class="certificados-grid">
+                    <div class="certificado-card">
+                        <div class="certificado-icon">🏅</div>
+                        <div class="certificado-info">
+                            <h3>Fundamentos de Álgebra</h3>
+                            <div class="certificado-fecha">Obtenido: 28 Abr 2025</div>
+                            <div class="certificado-descripcion">Completaste satisfactoriamente el módulo de fundamentos algebraicos</div>
+                        </div>
+                        <a href="#" class="btn btn-sm">Ver certificado</a>
+                    </div>
+                    
+                    <div class="certificado-card locked">
+                        <div class="certificado-icon">🏅</div>
+                        <div class="certificado-info">
+                            <h3>Geometría Básica</h3>
+                            <div class="certificado-progreso">Progreso: 75% completado</div>
+                            <div class="certificado-descripcion">Completa todas las lecciones y retos de geometría</div>
+                        </div>
+                        <button class="btn btn-sm btn-disabled">Pendiente</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="actividad-reciente">
+        <div class="container">
+            <h2 class="section-title">Actividad reciente</h2>
+            <div class="historial-actividad">
+                <div class="historial-dia">
+                    <div class="historial-fecha">Hoy</div>
+                    <div class="actividad-lista">
+                        <div class="actividad-item">
+                            <div class="actividad-icon">✏️</div>
+                            <div class="actividad-info">
+                                <div class="actividad-titulo">Completaste 5 ejercicios de Factorización</div>
+                                <div class="actividad-detalles">
+                                    <span class="actividad-hora">10:30 AM</span>
+                                    <span class="actividad-puntos">+25 puntos</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="actividad-item">
+                            <div class="actividad-icon">🏆</div>
+                            <div class="actividad-info">
+                                <div class="actividad-titulo">Superaste el reto "Ecuaciones Lineales"</div>
+                                <div class="actividad-detalles">
+                                    <span class="actividad-hora">09:15 AM</span>
+                                    <span class="actividad-puntos">+30 puntos</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="historial-dia">
+                    <div class="historial-fecha">Ayer</div>
+                    <div class="actividad-lista">
+                        <div class="actividad-item">
+                            <div class="actividad-icon">🏅</div>
+                            <div class="actividad-info">
+                                <div class="actividad-titulo">Obtuviste la insignia "Precisión Perfecta"</div>
+                                <div class="actividad-detalles">
+                                    <span class="actividad-hora">16:45 PM</span>
+                                    <span class="actividad-logro">¡Nuevo logro!</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="actividad-item">
+                            <div class="actividad-icon">📚</div>
+                            <div class="actividad-info">
+                                <div class="actividad-titulo">Estudiaste "Perímetros y áreas de figuras compuestas"</div>
+                                <div class="actividad-detalles">
+                                    <span class="actividad-hora">14:20 PM</span>
+                                    <span class="actividad-tiempo">30 minutos</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="historial-completo">
+                <a href="#" class="btn btn-outline">Ver historial completo</a>
+            </div>
+        </div>
+    </section>
+
+     <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <div class="logo">
+                        <div class="logo-icon">📊</div>
+                        <div>MateIa</div>
+                    </div>
+                    <p>Aprende matemáticas de forma divertida</p>
+                </div>
+                <div class="footer-links">
+                    <div class="footer-links-section">
+                        <h3>Navegación</h3>
+                        <ul>
+                            <li><a href="index.html">Inicio</a></li>
+                            <li><a href="index.html#topics-section">Temas</a></li>
+                            <li><a href="ejercicios.html">Ejercicios</a></li>
+                            <li><a href="retos.html">Retos</a></li>
+                            <li><a href="progreso.html">Mi Progreso</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-links-section">
+                        <h3>Apoyo</h3>
+                        <ul>
+                            <li><a href="politica-terminos.html#privacidad">Política de Privacidad</a></li>
+                            <li><a href="politica-terminos.html#terminos">Términos de Uso</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 MateIa - Todos los derechos reservados</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="scripts.js"></script>
+    <script src="progreso.js"></script>
+</body>
+</html>

@@ -489,5 +489,12 @@ document.addEventListener("DOMContentLoaded", () => {
     actualizarEstadosDeBotones();
   }, 100);
   verificarInsignias();
+  // Este es el fix:
+  const closeBtn = document.querySelector(".close-modal");
+  if (closeBtn) {
+    closeBtn.addEventListener("click", () => {
+      document.getElementById("reto-modal").classList.remove("active");
+    });
+  }
 });
 

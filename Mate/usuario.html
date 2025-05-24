@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mi Progreso - MateIA</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="ejercicios.css">
+    <link rel="stylesheet" href="retos.css">
+    <link rel="stylesheet" href="usuario.css">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <nav>
+                <div class="logo">
+                    <div class="logo-icon">📊</div>
+                    <div>MateIA</div>
+                </div>
+                <ul class="nav-links">
+                    <li><a href="index.html">Inicio</a></li>
+                    <li><a href="ejercicios.html">Ejercicios</a></li>
+                    <li><a href="retos.html">Retos</a></li>
+                    <li><a href="usuario.html" class="active">Mi Progreso</a></li>
+                </ul>
+                <button class="mobile-menu-btn">☰</button>
+            </nav>
+        </div>
+    </header>
+
+    <div class="mobile-menu">
+        <button class="close-menu">✕</button>
+        <ul class="mobile-nav-links">
+            <li><a href="index.html">Inicio</a></li>
+            <li><a href="ejercicios.html">Ejercicios</a></li>
+            <li><a href="retos.html">Retos</a></li>
+            <li><a href="usuario.html" class="active">Mi Progreso</a></li>
+        </ul>
+    </div>
+
+    <section class="progreso-hero">
+        <div class="container">
+            <h1>Mi Progreso</h1>
+            <p>Visualiza tu avance, logros y rendimiento en tu aprendizaje matemático</p>
+        </div>
+    </section>
+
+    <section class="progreso-resumen">
+         <div class="container">
+            <div class="dashboard-stats">
+                <div class="stat-box">
+                    <div class="stat-icon">🏆</div>
+                    <div class="stat-info">
+                        <div class="stat-value" id="retos-completados">0</div>
+                        <div class="stat-label">Retos completados</div>
+                    </div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-icon">⭐</div>
+                    <div class="stat-info">
+                        <div class="stat-value" id="total-puntos">0</div>
+                        <div class="stat-label">Puntos totales</div>
+                    </div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-icon">🔥</div>
+                    <div class="stat-info">
+                        <div class="stat-value" id="racha-actual">0</div>
+                        <div class="stat-label">Racha actual</div>
+                    </div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-icon">🎖️</div>
+                    <div class="stat-info">
+                        <div class="stat-value" id="insignias-ganadas">0/10</div>
+                        <div class="stat-label">Insignias ganadas</div>
+                    </div>
+                </div>
+            </div>
+                <div class="nivel-actual">
+                    <div class="nivel-header">
+                        <h3>Nivel actual</h3>
+                        <div class="nivel-badge" id="nivel-badge">3</div>
+                    </div>
+                    <div class="nivel-progress-container">
+                        <div class="nivel-info">
+                            <span id="nivel-actual">Nivel 3: Explorador Matemático</span>
+                            <span id="puntos-nivel">245/300 puntos</span>
+                        </div>
+                        <div class="nivel-progress-bar">
+                            <div class="nivel-progress-fill" style="width: 82%"></div>
+                        </div>
+                        <div class="siguiente-nivel">
+                            <span>Siguiente: Nivel 4 - Estratega Numérico</span>
+                            <span>Faltan: 55 puntos</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+<section class="logros-section">
+        <div class="container">
+            <h2 class="section-title">Mis Insignias</h2>
+           
+            
+            <div class="logros-container active" id="insignias-container">
+                <div class="insignias-grid">
+                     <div class="insignia locked" id="insignia_racha">
+                    <div class="insignia-img locked">
+                        <span class="insignia-icon">🔥</span>
+                    </div>
+                    <h3>Racha Imparable</h3>
+                    <p>Mantén una racha de 5 días consecutivos</p>
+                    <div class="insignia-progreso">Progreso: 0/5 días</div>
+                    <div class="insignia-recompensa">Recompensa: +100 puntos</div>
+                    </div>
+
+                    <div class="insignia locked" id="insignia_estadistica">
+                    <div class="insignia-img locked">
+                        <span class="insignia-icon">📊</span>
+                    </div>
+                    <h3>Analista de Datos</h3>
+                    <p>Domina todos los retos de estadística</p>
+                    <div class="insignia-progreso">Progreso: 0/3</div>
+                    <div class="insignia-recompensa">Recompensa: +100 puntos</div>
+                    </div>
+
+                    <div class="insignia locked" id="insignia_geometria">
+                    <div class="insignia-img locked">
+                        <span class="insignia-icon">📐</span>
+                    </div>
+                    <h3>Geómetra Experto</h3>
+                    <p>Completa todos los retos de geometría</p>
+                    <div class="insignia-progreso">Progreso: 0/3</div>
+                    <div class="insignia-recompensa">Recompensa: +100 puntos</div>
+                    </div>
+
+                    <div class="insignia locked" id="insignia_ejercicios">
+                    <div class="insignia-img locked">
+                        <span class="insignia-icon">🎓</span>
+                    </div>
+                    <h3>Estudiante Constante</h3>
+                    <p>Completa 10 ejercicios</p>
+                    <div class="insignia-progreso">Progreso: 0/10</div>
+                    <div class="insignia-recompensa">Recompensa: +50 puntos</div>
+                    </div>
+
+                    <div class="insignia locked" id="insignia_retoman">
+                    <div class="insignia-img locked">
+                        <span class="insignia-icon">💡</span>
+                    </div>
+                    <h3>Desafío Mental</h3>
+                    <p>Completa 5 retos matemáticos</p>
+                    <div class="insignia-progreso">Progreso: 0/5</div>
+                    <div class="insignia-recompensa">Recompensa: +50 puntos</div>
+                    </div>
+
+                    <div class="insignia locked" id="insignia_puntos">
+                    <div class="insignia-img locked">
+                        <span class="insignia-icon">🧠</span>
+                    </div>
+                    <h3>Mente Brillante</h3>
+                    <p>Alcanza 300 puntos totales</p>
+                    <div class="insignia-progreso">Progreso: 0/300</div>
+                    <div class="insignia-recompensa">Recompensa: +200 puntos</div>
+                    </div>
+
+                    <div class="insignia locked" id="insignia_algebra">
+                    <div class="insignia-img locked">
+                        <span class="insignia-icon">➕</span>
+                    </div>
+                    <h3>Genio del Álgebra</h3>
+                    <p>Completa todos los retos de álgebra</p>
+                    <div class="insignia-progreso">Progreso: 0/3</div>
+                    <div class="insignia-recompensa">Recompensa: +100 puntos</div>
+                    </div>
+
+                    <div class="insignia locked" id="insignia_trigonometria">
+                    <div class="insignia-img locked">
+                        <span class="insignia-icon">📐</span>
+                    </div>
+                    <h3>Maestro Trigonométrico</h3>
+                    <p>Completa todos los retos de trigonometría</p>
+                    <div class="insignia-progreso">Progreso: 0/3</div>
+                    <div class="insignia-recompensa">Recompensa: +100 puntos</div>
+                    </div>
+
+                    <div class="insignia locked" id="insignia_completista">
+                    <div class="insignia-img locked">
+                        <span class="insignia-icon">✅</span>
+                    </div>
+                    <h3>Maestro Total</h3>
+                    <p>Completa todos los retos disponibles</p>
+                    <div class="insignia-progreso">Progreso: 0/12</div>
+                    <div class="insignia-recompensa">Recompensa: +100 puntos</div>
+                    </div>
+                    <div class="insignia locked" id="insignia_maestro_final">
+                    <div class="insignia-img locked">
+                        <span class="insignia-icon">🏅</span>
+                    </div>
+                    <h3>Leyenda Numérica</h3>
+                    <p>Alcanza el nivel 5: Maestro de los Números</p>
+                    <div class="insignia-progreso">Progreso: Nivel actual: 1/5</div>
+                    <div class="insignia-recompensa">Recompensa: +300 puntos</div>
+                    </div>
+
+
+            </div>
+            
+
+    <section class="progreso-graficos">
+        <div class="container">
+            <div class="graficos-container">
+                <div class="grafico-card">
+                    <h3>Dominio por áreas</h3>
+                    <div class="grafico-wrapper">
+                        <canvas id="grafico-areas"></canvas>
+                    </div>
+                </div>
+                <div class="grafico-card">
+                    <h3>Rendimiento semanal</h3>
+                    <div class="grafico-wrapper">
+                        <canvas id="grafico-rendimiento"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+   
+
+    
+    </section>
+
+
+     <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <div class="logo">
+                        <div class="logo-icon">📊</div>
+                        <div>MateIa</div>
+                    </div>
+                    <p>Aprende matemáticas de forma divertida</p>
+                </div>
+                <div class="footer-links">
+                    <div class="footer-links-section">
+                        <h3>Navegación</h3>
+                        <ul>
+                            <li><a href="index.html">Inicio</a></li>
+                            <li><a href="ejercicios.html">Ejercicios</a></li>
+                            <li><a href="retos.html">Retos</a></li>
+                            <li><a href="usuario.html">Mi Progreso</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-links-section">
+                        <h3>Apoyo</h3>
+                        <ul>
+                            <li><a href="politica-terminos.html#privacidad">Política de Privacidad</a></li>
+                            <li><a href="politica-terminos.html#terminos">Términos de Uso</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 MateIa - Todos los derechos reservados</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+   <script src="global.js"></script>
+<script src="scripts.js"></script>
+<script src="ejercicios.js"></script>
+<script src="usuario.js"></script>
+
+</body>
+</html>

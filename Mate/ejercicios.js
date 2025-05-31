@@ -26,7 +26,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const feedbackContainer = document.getElementById('feedback-container');
     const feedbackCorrecto = document.getElementById('feedback-correcto');
     const feedbackIncorrecto = document.getElementById('feedback-incorrecto');
-    const btnAnterior = document.getElementById('ejercicio-anterior');
+    //const btnAnterior = document.getElementById('ejercicio-anterior');
     const btnSiguiente = document.getElementById('ejercicio-siguiente');
     const btnFinalizar = document.getElementById('ejercicio-finalizar');
     const preguntaActualSpan = document.getElementById('pregunta-actual');
@@ -209,7 +209,7 @@ async function obtenerEjercicioDeIA(tema, nivel) {
     feedbackIncorrecto.style.display = 'none';
     
     // Configurar botones
-    btnAnterior.disabled = ejercicioActual === 0;
+    //btnAnterior.disabled = ejercicioActual === 0;
     btnSiguiente.disabled = true; // Siempre deshabilitado al inicio
     btnSiguiente.style.display = ejercicioActual < ejercicios.length - 1 ? 'block' : 'none';
     btnFinalizar.style.display = ejercicioActual === ejercicios.length - 1 ? 'block' : 'none';
@@ -412,11 +412,15 @@ btnFinalizar.addEventListener('click', function() {
     btnSiguiente.style.display = 'none';
 
     // Cambiar el botón finalizar a "volver a empezar"
-    btnFinalizar.textContent = 'Volver a empezar';
-    btnFinalizar.style.display = 'block';
+   btnFinalizar.textContent = 'Finalizar';
+    reiniciarModo = false;
 
-    // Activar modo reinicio
-    reiniciarModo = true;
+    // 👉 Quitar evento anterior
+    btnFinalizar.replaceWith(btnFinalizar.cloneNode(true));
+    document.getElementById("ejercicio-finalizar").addEventListener("click", () => {
+        ejercicioModal.style.display = "none";
+        resetearModal();
+    });
 }
 
 function resetearModal() {
@@ -449,7 +453,7 @@ function resetearModal() {
         ejercicioModal.style.display = 'none';
     });
 
-    btnAnterior.addEventListener('click', () => navegarEjercicio(-1));
+    //btnAnterior.addEventListener('click', () => navegarEjercicio(-1));
     btnSiguiente.addEventListener('click', () => navegarEjercicio(1));
    
 

@@ -84,6 +84,13 @@ function renderRetoDiario(reto) {
     console.error("❌ Reto inválido recibido en renderRetoDiario:", reto);
     return;
   }
+
+  // Validar fecha
+  if (window.mateiaUser.fechaUltimoReto !== new Date().toDateString()) {
+    window.mateiaUser.retoDiarioCompletado = false;
+    guardarUserData();
+  }
+
   document.querySelector(".reto-diario-content h3").textContent = reto.titulo;
   document.querySelector(".reto-diario-content p").textContent = reto.texto;
   document.querySelector(".reto-daily-reward span:last-child").textContent = `Recompensa: ${reto.recompensa} puntos`;
@@ -100,9 +107,9 @@ function renderRetoDiario(reto) {
     btnComenzar.textContent = "Comenzar Reto";
   }
 
-  btnComenzar.addEventListener("click", () => {
+  btnComenzar.onclick = () => {
     if (!window.mateiaUser.retoDiarioCompletado) iniciarRetoDiario(reto);
-  });
+  };
 
   iniciarContadorReset();
 }
@@ -120,43 +127,41 @@ async function cargarRetoDiario() {
   const hoy = new Date().toDateString();
   const ultimaFecha = data.fechaUltimoReto || "";
 
-  // ✅ Ya completó el reto hoy → mostrar el reto asignado desde Firestore
-  if (ultimaFecha === hoy) {
-    window.mateiaUser.retoDiarioCompletado = data.retoDiarioCompletado ?? true;
-    window.mateiaUser.fechaUltimoReto = hoy;
+  // 🔄 Sincronizar datos locales
+  window.mateiaUser.retoDiarioCompletado = data.retoDiarioCompletado ?? false;
+  window.mateiaUser.fechaUltimoReto = ultimaFecha;
+  guardarUserData();
 
+  // ✅ Ya completó el reto hoy
+  if (ultimaFecha === hoy) {
     const retoId = data.retoDiarioId;
     const reto = poolRetosDiarios.find(r => r.id === retoId);
-
     if (reto) {
       localStorage.setItem("retoDiario", JSON.stringify(reto));
       renderRetoDiario(reto);
     } else {
       console.warn("⚠️ No se encontró retoDiarioId válido en poolRetosDiarios.");
     }
-
     return;
   }
 
-  // 🆕 Es nuevo día → generar nuevo reto y actualizar Firestore
+  // 🆕 Nuevo día → generar nuevo reto
   const retoDelDia = poolRetosDiarios[Math.floor(Math.random() * poolRetosDiarios.length)];
-
-  // Guardar en localStorage
   localStorage.setItem("retoDiario", JSON.stringify(retoDelDia));
 
-  // Guardar en Firestore
   await updateDoc(ref, {
     retoDiarioCompletado: false,
     fechaUltimoReto: hoy,
     retoDiarioId: retoDelDia.id
   });
 
-  // Actualizar sesión local
   window.mateiaUser.retoDiarioCompletado = false;
   window.mateiaUser.fechaUltimoReto = hoy;
+  guardarUserData();
 
   renderRetoDiario(retoDelDia);
 }
+
 
 
 async function actualizarEstadosDeBotones() {
@@ -255,47 +260,58 @@ async function resolverRetoDiario(e, reto, tiempoTranscurrido) {
   const feedbackIncorrecto = document.getElementById("feedback-incorrecto");
   document.getElementById("respuesta-correcta").textContent = reto.opciones[reto.respuestaCorrecta];
 
-  if (esCorrecta) {
-    feedbackCorrecto.style.display = "block";
-    feedbackIncorrecto.style.display = "none";
+  const btnComenzar = document.getElementById("comenzar-reto-diario");
+  btnComenzar.disabled = true;
+  btnComenzar.textContent = "Reto diario ya completado 🏁";
+  btnComenzar.classList.add("btn-finalizado");
 
-    try {
-      const uid = localStorage.getItem('mateia_uid');
-      const ref = doc(db, 'usuarios', uid);
-      const snap = await getDoc(ref);
-      const data = snap.data();
-      const nuevosPuntos = (data.puntos || 0) + reto.recompensa;
-      const nuevosRetos = (parseInt(data.retosCompletados) || 0) + 1;
+  const uid = localStorage.getItem('mateia_uid');
+  const ref = doc(db, 'usuarios', uid);
+  const snap = await getDoc(ref);
+  const data = snap.data();
 
-      await updateDoc(ref, {
-        puntos: nuevosPuntos,
-        retosCompletados: nuevosRetos,
-        retoDiarioCompletado: true,
-        fechaUltimoReto: new Date().toDateString()
-      });
-      // ✅ Esto actualiza el header en tiempo real:
-    if (typeof actualizarPuntosGlobales === 'function') {
-      await actualizarPuntosGlobales(0); // solo para refrescar visual
+  // Datos a guardar
+  const nuevosPuntos = esCorrecta ? (data.puntos || 0) + reto.recompensa : data.puntos || 0;
+  const nuevosRetos = esCorrecta ? (parseInt(data.retosCompletados) || 0) + 1 : data.retosCompletados || 0;
+
+  // 🔁 Actualizar Firestore y bloquear el reto sin importar el resultado
+  try {
+    await updateDoc(ref, {
+      puntos: nuevosPuntos,
+      retosCompletados: nuevosRetos,
+      retoDiarioCompletado: true,
+      fechaUltimoReto: new Date().toDateString()
+    });
+
+    window.mateiaUser.retoDiarioCompletado = true;
+    window.mateiaUser.fechaUltimoReto = new Date().toDateString();
+    guardarUserData();
+
+    if (esCorrecta) {
+      feedbackCorrecto.style.display = "block";
+      feedbackIncorrecto.style.display = "none";
+
+      if (typeof actualizarPuntosGlobales === 'function') {
+        await actualizarPuntosGlobales(0); // refresco visual
+      }
+
+      mostrarNotificacionPuntos(reto.recompensa);
+      verificarNivel();
+      verificarInsignias();
+    } else {
+      feedbackCorrecto.style.display = "none";
+      feedbackIncorrecto.style.display = "block";
     }
 
-    } catch (err) {
-      console.error("Error al actualizar Firestore:", err);
-    }
-
-  } else {
-    feedbackCorrecto.style.display = "none";
-    feedbackIncorrecto.style.display = "block";
+  } catch (err) {
+    console.error("❌ Error al actualizar Firestore:", err);
   }
-
-  document.getElementById("comenzar-reto-diario").disabled = true;
-  mostrarNotificacionPuntos(reto.recompensa);
-  verificarNivel();
-  verificarInsignias();
 
   setTimeout(() => {
     mostrarResultadoDiario(esCorrecta, reto, tiempoTranscurrido);
   }, 1500);
 }
+
 
 
 function mostrarResultadoDiario(esCorrecta, reto, tiempoTranscurrido) {

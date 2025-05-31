@@ -63,12 +63,13 @@
                     </div>
                 </div>
                 <div class="stat-box">
-                    <div class="stat-icon">🔥</div>
-                    <div class="stat-info">
-                        <div class="stat-value" id="racha-actual">0</div>
-                        <div class="stat-label">Racha actual</div>
-                    </div>
+                <div class="stat-icon fuego-animado">🔥</div>
+                <div class="stat-info">
+                    <div class="stat-value" id="racha-actual">0</div>
+                    <div class="stat-label">Racha actual</div>
                 </div>
+            </div>          
+
                 <div class="stat-box">
                     <div class="stat-icon">🎖️</div>
                     <div class="stat-info">
@@ -232,7 +233,14 @@
 
     
     </section>
-
+<div class="modal" id="info-modal">
+        <div class="modal-content">
+            <button class="close-modal" onclick="cerrarModalInfo()">✕</button>
+            <div id="modal-info-body">
+            <!-- Se llena dinámicamente -->
+            </div>
+        </div>
+        </div>
 
      <footer>
         <div class="container">
@@ -267,6 +275,7 @@
                 <p>&copy; 2025 MateIa - Todos los derechos reservados</p>
             </div>
         </div>
+        
     </footer>
 <script type="module">
   import { verificarSesion, cerrarSesion } from './auth.js';
@@ -289,5 +298,7 @@
 <script src="scripts.js"></script>
 <script src="ejercicios.js"></script>
 <script type="module" src="usuario.js"></script>
+        
+
 </body>
 </html>

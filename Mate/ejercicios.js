@@ -144,7 +144,8 @@ async function obtenerEjercicioDeIA(tema, nivel) {
     async function iniciarEjercicio(tema, nivel) {
     // Resetear primero
     resetearModal();
-    
+    btnFinalizar.style.display = 'none'; // Asegura que siempre inicie oculto
+    btnFinalizar.textContent = 'Finalizar'; // Restablece texto por si cambió
     temaActual = tema;
     nivelActual = nivel;
     ejercicioActual = 0;
@@ -171,49 +172,49 @@ async function obtenerEjercicioDeIA(tema, nivel) {
 }
 
     // Mostrar el ejercicio actual
-   function mostrarEjercicioActual() {
+function mostrarEjercicioActual() {
     const ejercicio = ejercicios[ejercicioActual];
-    
+
     // Actualizar UI
     loadingContainer.style.display = 'none';
     ejercicioContenido.style.display = 'block';
     preguntaActualSpan.textContent = ejercicioActual + 1;
-    
+
     // Configurar dificultad
     dificultadDots.forEach((dot, index) => {
         dot.classList.toggle('active', index < ejercicio.dificultad);
     });
-    
+
     // Mostrar pregunta
     ejercicioPregunta.textContent = ejercicio.pregunta;
-    
-     // Mostrar opciones y resetear estado
+
+    // Mostrar opciones y resetear estado
     const opcionesItems = opcionesContainer.querySelectorAll('.opcion-item');
     opcionesItems.forEach((item, index) => {
         // Limpiar clases y estado
         item.classList.remove('seleccionada', 'correcta', 'incorrecta', 'bloqueada');
-        
+
         // Actualizar texto de la opción
         item.querySelector('.opcion-texto').textContent = ejercicio.opciones[index];
-        
+
         // Remover cualquier event listener previo
         item.removeEventListener('click', manejarClickOpcion);
-        
+
         // Agregar nuevo event listener
         item.addEventListener('click', manejarClickOpcion);
     });
-    
+
     // Resetear feedback
     feedbackContainer.style.display = 'none';
     feedbackCorrecto.style.display = 'none';
     feedbackIncorrecto.style.display = 'none';
-    
+
     // Configurar botones
-    //btnAnterior.disabled = ejercicioActual === 0;
-    btnSiguiente.disabled = true; // Siempre deshabilitado al inicio
+    btnSiguiente.disabled = true;
     btnSiguiente.style.display = ejercicioActual < ejercicios.length - 1 ? 'block' : 'none';
     btnFinalizar.style.display = ejercicioActual === ejercicios.length - 1 ? 'block' : 'none';
 }
+
     // Seleccionar una opción
     function seleccionarOpcion(opcionIndex) {
     const ejercicio = ejercicios[ejercicioActual];
@@ -412,15 +413,18 @@ btnFinalizar.addEventListener('click', function() {
     btnSiguiente.style.display = 'none';
 
     // Cambiar el botón finalizar a "volver a empezar"
-   btnFinalizar.textContent = 'Finalizar';
+   // Cambiar el botón finalizar a "Finalizar" que cierra el modal
+    btnFinalizar.textContent = 'Finalizar';
     reiniciarModo = false;
 
-    // 👉 Quitar evento anterior
-    btnFinalizar.replaceWith(btnFinalizar.cloneNode(true));
-    document.getElementById("ejercicio-finalizar").addEventListener("click", () => {
-        ejercicioModal.style.display = "none";
-        resetearModal();
-    });
+    // Asegurar que el botón esté visible y funcional
+    btnFinalizar.style.display = 'block';
+
+   btnFinalizar.onclick = () => {
+    ejercicioModal.style.display = "none";
+    resetearModal();
+};
+
 }
 
 function resetearModal() {

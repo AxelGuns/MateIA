@@ -860,3 +860,28 @@ footer {
     gap: 20px; /* Espacio uniforme entre secciones */
 }
 
+/* Forzar ocultar feedback incorrecto incluso si el display cambia por error */
+#feedback-incorrecto,
+.feedback.incorrecto {
+    display: none !important;
+    visibility: hidden;
+    height: 0;
+    padding: 0;
+    margin: 0;
+    overflow: hidden;
+}
+
+/* También aseguramos que feedback-container no se desborde ni dañe en móviles */
+@media screen and (max-width: 600px) {
+    #feedback-container {
+        word-wrap: break-word;
+        overflow-wrap: break-word;
+        max-width: 100%;
+        font-size: 0.95rem;
+    }
+
+    .feedback-explicacion {
+        max-width: 100%;
+        font-size: 0.9rem;
+    }
+}

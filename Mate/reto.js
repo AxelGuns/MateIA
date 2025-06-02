@@ -50,21 +50,86 @@ import {
 const poolRetosDiarios = [
   {
     id: "diario1",
-    titulo: "Suma simple",
-    texto: "¿Cuánto es 7 + 8?",
-    opciones: ["14", "15", "16", "17"],
+    titulo: "Sistema de ecuaciones",
+    texto: "Resuelve el sistema:\n2x + 3y = 13\ny = x + 1",
+    opciones: ["x = 2, y = 3", "x = 3, y = 4", "x = 1, y = 2", "x = 4, y = 5"],
     respuestaCorrecta: 1,
     recompensa: 50
   },
   {
     id: "diario2",
-    titulo: "Álgebra básica",
-    texto: "Resuelve: 3x + 2 = 11",
-    opciones: ["x = 2", "x = 3", "x = 4", "x = 5"],
-    respuestaCorrecta: 2,
+    titulo: "Área combinada",
+    texto: "Una figura está compuesta por un cuadrado de lado 6 cm y un semicírculo en uno de sus lados. ¿Cuál es el área total aproximada?",
+    opciones: ["56.52 cm²", "48.23 cm²", "68.27 cm²", "64.84 cm²"],
+    respuestaCorrecta: 2, // Área total ≈ 36 + (π*3²)/2 = 36 + 14.13 ≈ 50.13 cm²
+    recompensa: 50
+  },
+  {
+    id: "diario3",
+    titulo: "Potencias y raíces",
+    texto: "¿Cuál es el valor de √(81) + 2³?",
+    opciones: ["17", "18", "19", "20"],
+    respuestaCorrecta: 0, // 9 + 8 = 17
+    recompensa: 50
+  },
+  {
+    id: "diario4",
+    titulo: "Fracción compleja",
+    texto: "Simplifica: (3/4) ÷ (9/16)",
+    opciones: ["2/3", "4/3", "16/36", "3/2"],
+    respuestaCorrecta: 1, // (3/4)*(16/9) = 48/36 = 4/3
+    recompensa: 50
+  },
+  {
+    id: "diario5",
+    titulo: "Problema lógico",
+    texto: "Si un tren recorre 180 km en 2 horas y luego 90 km en 1 hora, ¿cuál fue su velocidad promedio total?",
+    opciones: ["90 km/h", "85 km/h", "80 km/h", "75 km/h"],
+    respuestaCorrecta: 0, // Total: 270 km en 3 h = 90 km/h
+    recompensa: 50
+  },
+  {
+    id: "diario6",
+    titulo: "Trigonometría aplicada",
+    texto: "En un triángulo rectángulo, si un cateto mide 5 y la hipotenusa 13, ¿cuánto mide el otro cateto?",
+    opciones: ["12", "10", "8", "9"],
+    respuestaCorrecta: 0, // Teorema de Pitágoras: x² + 5² = 13² → x² = 169 - 25 = 144 → x = 12
+    recompensa: 50
+  },
+  {
+    id: "diario7",
+    titulo: "Media vs Mediana",
+    texto: "Dado el conjunto: [3, 7, 8, 8, 10, 15, 100], ¿cuál es la mediana?",
+    opciones: ["8", "10", "15", "100"],
+    respuestaCorrecta: 0, // La mediana es el valor central → 8
+    recompensa: 50
+  },
+  {
+    id: "diario8",
+    titulo: "Problema de razones",
+    texto: "Si 5 manzanas cuestan lo mismo que 3 peras y 1 pera cuesta $6, ¿cuánto cuesta 1 manzana?",
+    opciones: ["$3.60", "$3.00", "$4.00", "$5.00"],
+    respuestaCorrecta: 0, // 3 peras = $18 → 5 manzanas = $18 → 1 manzana = 18/5 = $3.60
+    recompensa: 50
+  },
+  {
+    id: "diario9",
+    titulo: "Ángulos interiores",
+    texto: "¿Cuál es la suma de los ángulos interiores de un octágono?",
+    opciones: ["1080°", "1260°", "1440°", "900°"],
+    respuestaCorrecta: 0, // (8-2)*180 = 1080°
+    recompensa: 50
+  },
+  {
+    id: "diario10",
+    titulo: "Ecuación cuadrática",
+    texto: "¿Cuál es una solución de la ecuación x² - 5x + 6 = 0?",
+    opciones: ["x = 3", "x = 1", "x = -2", "x = 5"],
+    respuestaCorrecta: 0, // Soluciones: x = 2 y x = 3
     recompensa: 50
   }
 ];
+
 
 if (!window.mateiaUser) {
   window.mateiaUser = {

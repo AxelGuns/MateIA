@@ -23,9 +23,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const opcionesContainer = document.querySelector('.opciones-container');
     const loadingContainer = document.getElementById('loading-container');
     const ejercicioContenido = document.getElementById('ejercicio-contenido');
-    const feedbackContainer = document.getElementById('feedback-container');
-    const feedbackCorrecto = document.getElementById('feedback-correcto');
-    const feedbackIncorrecto = document.getElementById('feedback-incorrecto');
+
     //const btnAnterior = document.getElementById('ejercicio-anterior');
     const btnSiguiente = document.getElementById('ejercicio-siguiente');
     const btnFinalizar = document.getElementById('ejercicio-finalizar');
@@ -37,6 +35,8 @@ document.addEventListener('DOMContentLoaded', function() {
     let ejercicios = [];
     let ejercicioActual = 0;
     let respuestasUsuario = [];
+    let respuestasEvaluadas = [];
+
     let temaActual = '';
     let nivelActual = 1;
 
@@ -150,6 +150,8 @@ async function obtenerEjercicioDeIA(tema, nivel) {
     nivelActual = nivel;
     ejercicioActual = 0;
     respuestasUsuario = [];
+    respuestasEvaluadas = [];
+
     
     // Mostrar carga
     ejercicioModal.style.display = 'block';
@@ -205,9 +207,7 @@ function mostrarEjercicioActual() {
     });
 
     // Resetear feedback
-    feedbackContainer.style.display = 'none';
-    feedbackCorrecto.style.display = 'none';
-    feedbackIncorrecto.style.display = 'none';
+
 
     // Configurar botones
     btnSiguiente.disabled = true;
@@ -235,7 +235,11 @@ function mostrarEjercicioActual() {
 
     // Llamar feedback
     const esCorrecta = opcionIndex === ejercicio.respuestaCorrecta;
+    if (!respuestasEvaluadas[ejercicioActual]) {
     mostrarFeedback(esCorrecta);
+    respuestasEvaluadas[ejercicioActual] = true;
+}
+
 
     // Habilitar botón siguiente
     btnSiguiente.disabled = false;
@@ -256,51 +260,42 @@ async function mostrarFeedback(esCorrecta) {
   const opcionesItems = opcionesContainer.querySelectorAll('.opcion-item');
   const respuesta = respuestasUsuario[ejercicioActual];
 
-  feedbackContainer.style.display = 'block';
+  // Mostrar solo los colores visuales
+  if (respuesta !== undefined && opcionesItems[respuesta]) {
+    if (esCorrecta) {
+      opcionesItems[respuesta].classList.add('correcta');
+    } else {
+      opcionesItems[respuesta].classList.add('incorrecta');
+    }
+  }
+
+  if (!esCorrecta && ejercicio.respuestaCorrecta !== undefined) {
+    opcionesItems[ejercicio.respuestaCorrecta]?.classList.add('correcta');
+  }
 
   if (esCorrecta) {
-    feedbackCorrecto.style.display = 'flex';
-    feedbackIncorrecto.style.display = 'none';
-    feedbackCorrecto.querySelector('.feedback-explicacion').textContent = ejercicio.explicacion;
-
-    if (respuesta !== undefined && opcionesItems[respuesta]) {
-      opcionesItems[respuesta].classList.add('correcta');
-    }
-
     const hoyISO = new Date().toISOString().split('T')[0];
     const hoyTexto = new Date().toDateString();
     const ref = doc(db, 'usuarios', uid);
-
-    // 🔄 Obtener datos actualizados y sincronizar
     const snap = await getDoc(ref);
     const datosActualizados = snap.data();
-    usuario = datosActualizados; // ✅ Mantener datos actualizados en memoria
+    usuario = datosActualizados;
 
     const debeActualizarRacha = !datosActualizados.ultimaActividad || datosActualizados.ultimaActividad !== hoyISO;
-
-
-    console.log("🔍 ultimaActividad previa:", datosActualizados.ultimaActividad, " vs hoy:", hoyISO);
-
     const nuevosPuntos = (datosActualizados.puntos || 0) + 10;
 
     await updateDoc(ref, {
-  puntos: nuevosPuntos,
-  [`progresoTemas.${temaActual}`]: (datosActualizados.progresoTemas?.[temaActual] || 0) + 10,
-  ejerciciosCompletados: (datosActualizados.ejerciciosCompletados || 0) + 1,
-  [`graficaDiaria.${hoyISO}`]: (datosActualizados.graficaDiaria?.[hoyISO] || 0) + 1,
-  ultimaActividad: hoyISO,
-  fechaUltimoReto: hoyTexto
-});
+      puntos: nuevosPuntos,
+      [`progresoTemas.${temaActual}`]: (datosActualizados.progresoTemas?.[temaActual] || 0) + 10,
+      ejerciciosCompletados: (datosActualizados.ejerciciosCompletados || 0) + 1,
+      [`graficaDiaria.${hoyISO}`]: (datosActualizados.graficaDiaria?.[hoyISO] || 0) + 1,
+      ultimaActividad: hoyISO,
+      fechaUltimoReto: hoyTexto
+    });
 
-// ✅ Esperar a que Firestore lo refleje
-await new Promise(resolve => setTimeout(resolve, 300));
+    await new Promise(resolve => setTimeout(resolve, 300));
+    const nuevaRacha = await actualizarRachaDiaria();
 
-// ✅ Ejecutar después
-console.log("⚡ Ejecutando actualizarRachaDiaria...");
-const nuevaRacha = await actualizarRachaDiaria();
-console.log("✅ Nueva racha registrada:", nuevaRacha);
-    // ⚙️ Actualizar estado local
-    usuario.puntos = nuevosPuntos;
     usuario.ejerciciosCompletados = (usuario.ejerciciosCompletados || 0) + 1;
     usuario.progresoTemas = {
       ...usuario.progresoTemas,
@@ -312,35 +307,20 @@ console.log("✅ Nueva racha registrada:", nuevaRacha);
     };
     if (debeActualizarRacha) usuario.ultimaActividad = hoyISO;
 
-    // ⚙️ Funciones gamificadas
-    actualizarPuntosGlobales(10, temaActual);
+    // ✅ Actualizar contador visual
+    window.puntosGlobales = nuevosPuntos;
+    const display = document.getElementById('points-display');
+    if (display) display.textContent = nuevosPuntos;
+
     verificarNivel();
-
-    if (debeActualizarRacha) {
-        console.log("💾 Esperando guardado de ultimaActividad...");
-        await new Promise(resolve => setTimeout(resolve, 200)); // Espera para que se registre en Firestore
-        console.log("⚡ Ejecutando actualizarRachaDiaria...");
-        const nuevaRacha = await actualizarRachaDiaria();
-        console.log("✅ Nueva racha:", nuevaRacha);
-        }
-
+    if (debeActualizarRacha) await actualizarRachaDiaria();
     verificarInsignias();
     mostrarNotificacionPuntos(10);
-
-  } else {
-    feedbackCorrecto.style.display = 'none';
-    feedbackIncorrecto.style.display = 'flex';
-    feedbackIncorrecto.querySelector('.feedback-explicacion').textContent = ejercicio.explicacion;
-
-    if (respuesta !== undefined && opcionesItems[respuesta]) {
-      opcionesItems[respuesta].classList.add('incorrecta');
-    }
-
-    if (ejercicio.respuestaCorrecta !== undefined && opcionesItems[ejercicio.respuestaCorrecta]) {
-      opcionesItems[ejercicio.respuestaCorrecta].classList.add('correcta');
-    }
   }
 }
+
+
+
 
 
     // Navegar entre ejercicios
@@ -358,14 +338,14 @@ btnFinalizar.addEventListener('click', function() {
         // Modo reinicio - Volver a empezar
         ejercicioActual = 0;
         respuestasUsuario = [];
+        respuestasEvaluadas = [];
+
         reiniciarModo = false;
 
         // Restablecer completamente la UI
         opcionesContainer.style.display = 'grid';
         ejercicioPregunta.textContent = ''; // Usar textContent en lugar de innerHTML
-        feedbackContainer.style.display = 'none';
-        feedbackCorrecto.style.display = 'none';
-        feedbackIncorrecto.style.display = 'none';
+
         btnFinalizar.textContent = 'Finalizar';
         
         // Restaurar estado inicial de los botones
@@ -407,10 +387,7 @@ btnFinalizar.addEventListener('click', function() {
         <p>${correctas} de ${ejercicios.length} correctas (${porcentaje}%)</p>
     `;
 
-    // Ocultar elementos no necesarios
-    opcionesContainer.style.display = 'none';
-    feedbackContainer.style.display = 'none';
-    btnSiguiente.style.display = 'none';
+
 
     // Cambiar el botón finalizar a "volver a empezar"
    // Cambiar el botón finalizar a "Finalizar" que cierra el modal
@@ -431,9 +408,7 @@ function resetearModal() {
     loadingContainer.style.display = 'none';
     ejercicioContenido.style.display = 'none';
     opcionesContainer.style.display = 'grid';
-    feedbackContainer.style.display = 'none';
-    feedbackCorrecto.style.display = 'none';
-    feedbackIncorrecto.style.display = 'none';
+   
     btnSiguiente.style.display = 'block';
     btnSiguiente.disabled = true;
     btnFinalizar.style.display = 'none';
